@@ -169,7 +169,6 @@ Consultar tareas del nodo 2:
 curl http://localhost:4002/tasks
 ```
 
-En el Sprint 1 una tarea creada en el nodo 1 todavía no aparece automáticamente en el nodo 2.
 
 La sincronización P2P se implementará posteriormente.
 
@@ -216,7 +215,7 @@ Cada nodo mantiene las tareas en memoria.
 
 Los datos se pierden cuando se detiene el nodo.
 
-##Virtualización
+## Virtualización
 
  **Guía completa paso a paso:** [VIRTUALIZACION.md](https://github.com/FabriCordovaCaceres/servicios-telematicos-cliente-servidor/blob/main/docs/VIRTUALIZACION.md) (en el repositorio de Cliente-Servidor).
 
@@ -258,7 +257,6 @@ curl http://192.168.56.11:4001/   # nodo-1 (VM1)
 curl http://192.168.56.12:4002/   # nodo-2 (VM2)
 ```
 
-> **Estado en el Sprint 1:** una tarea creada en el nodo 1 todavía **no** aparece en el nodo 2. La sincronización entre pares (RQ6) se implementa en el Sprint 2, usando las IPs fijas de esta topología para que cada nodo conozca a su par.
 
 ### Actualizar tras un cambio en GitHub
 
