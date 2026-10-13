@@ -1,0 +1,52 @@
+name: tele-stack
+
+services:
+  cliente-servidor:
+    build:
+      context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-cliente-servidor.git#main"
+    container_name: tele-cliente-servidor
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - tele-red
+
+  p2p-nodo-1:
+    build:
+      context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-p2p.git#main"
+    container_name: tele-p2p-1
+    restart: unless-stopped
+    environment:
+      PORT: "4001"
+      NODE_ID: "nodo-1"
+    ports:
+      - "4001:4001"
+    networks:
+      - tele-red
+
+  p2p-nodo-2:
+    build:
+      context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-p2p.git#main"
+    container_name: tele-p2p-2
+    restart: unless-stopped
+    environment:
+      PORT: "4002"
+      NODE_ID: "nodo-2"
+    ports:
+      - "4002:4002"
+    networks:
+      - tele-red
+
+  micro-tareas:
+    build:
+      context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-microservicios.git#main"
+    container_name: tele-micro-tareas
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    networks:
+      - tele-red
+
+networks:
+  tele-red:
+    driver: bridge
