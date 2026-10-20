@@ -19,6 +19,7 @@ services:
     environment:
       PORT: "4001"
       NODE_ID: "nodo-1"
+      PEERS: "http://p2p-nodo-2:4002"
     ports:
       - "4001:4001"
     networks:
@@ -32,6 +33,7 @@ services:
     environment:
       PORT: "4002"
       NODE_ID: "nodo-2"
+      PEERS: "http://p2p-nodo-1:4001"
     ports:
       - "4002:4002"
     networks:
@@ -42,8 +44,25 @@ services:
       context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-microservicios.git#main"
     container_name: tele-micro-tareas
     restart: unless-stopped
+    environment:
+      PORT: "5001"
+      NOTIFICACIONES_URL: "http://micro-notificaciones:5002"
     ports:
       - "5001:5001"
+    networks:
+      - tele-red
+    depends_on:
+      - micro-notificaciones
+
+  micro-notificaciones:
+    build:
+      context: "https://github.com/FabriCordovaCaceres/servicios-telematicos-microservicios.git#main:notificaciones"
+    container_name: tele-micro-notificaciones
+    restart: unless-stopped
+    environment:
+      PORT: "5002"
+    ports:
+      - "5002:5002"
     networks:
       - tele-red
 
