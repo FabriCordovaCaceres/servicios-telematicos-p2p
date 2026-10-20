@@ -269,3 +269,48 @@ docker build -t tele-p2p .
 docker rm -f tele-p2p-1
 docker run -d --name tele-p2p-1 --restart unless-stopped -p 4001:4001 -e PORT=4001 -e NODE_ID=nodo-1 tele-p2p
 ```
+
+---
+
+## Sprint 2 — Propagación entre nodos con marca de versión (RQ6)
+
+Cada nodo abre un canal WebSocket en `/p2p` y se conecta a los demás nodos
+indicados en la variable `PEERS` (direcciones separadas por coma).
+
+```bash
+# Nodo 1 (VM1)
+docker run -d --name tele-p2p-1 --restart unless-stopped -p 4001:4001 \
+  -e PORT=4001 -e NODE_ID=nodo-1 -e PEERS=http://192.168.56.12:4002 tele-p2p
+
+# Nodo 2 (VM2)
+docker run -d --name tele-p2p-2 --restart unless-stopped -p 4002:4002 \
+  -e PORT=4002 -e NODE_ID=nodo-2 -e PEERS=http://192.168.56.11:4001 tele-p2p
+```
+
+### Cómo sincroniza
+
+1. Un cambio local (crear, editar, eliminar) se envía a todos los pares conectados.
+2. Al (re)conectarse, cada nodo envía su **estado completo**: un nodo que estuvo
+   caído se pone al día solo.
+3. Los cambios recibidos de otros nodos **no se reenvían** (evita bucles).
+4. Si no hay conexión con un par, se reintenta cada 1, 2, 4... hasta 10 segundos.
+
+### Regla de resolución de conflictos ("el último que escribe gana")
+
+Cuando dos nodos tienen versiones distintas de la misma tarea gana:
+1. la de **mayor `version`**;
+2. si empatan, la de **`updatedAt` más reciente**;
+3. si todavía empatan, la de **`updatedBy` mayor** (así todos los nodos eligen el mismo ganador).
+
+Las eliminaciones se guardan como "lápidas" para que una actualización atrasada no
+resucite una tarea eliminada. Limitación conocida: si dos usuarios editan a la vez
+la misma tarea, una de las dos ediciones se pierde.
+
+### Ver el estado de las conexiones
+
+`curl http://192.168.56.11:4001/peers`
+
+### Nuevos archivos
+
+`src/events/task.events.ts`, `src/p2p/sincronizacion.ts`. Se modificaron
+`src/services/task.service.ts` e `src/index.ts`. Nueva dependencia: `ws`.
