@@ -314,3 +314,22 @@ la misma tarea, una de las dos ediciones se pierde.
 
 `src/events/task.events.ts`, `src/p2p/sincronizacion.ts`. Se modificaron
 `src/services/task.service.ts` e `src/index.ts`. Nueva dependencia: `ws`.
+
+---
+
+## Sprint 3 — Simulación de concurrencia (RQ11)
+
+`simulacion/concurrencia.mjs` simula 2, 3 o 5 usuarios que crean, leen, actualizan y eliminan tareas al mismo tiempo.
+
+```powershell
+# Local (localhost)
+node simulacion/concurrencia.mjs cs 2
+node simulacion/concurrencia.mjs p2p 3
+
+# Contra las máquinas virtuales (variable SERVIDORES, separadas por coma)
+$env:SERVIDORES="http://192.168.56.11:3000"; node simulacion/concurrencia.mjs cs 2
+$env:SERVIDORES="http://192.168.56.11:4001,http://192.168.56.12:4002"; node simulacion/concurrencia.mjs p2p 3
+Remove-Item Env:SERVIDORES
+```
+
+Para medir también CPU, RAM, red y latencia en las VMs, usar `metricas/medir-vm.ps1` del repositorio de microservicios.

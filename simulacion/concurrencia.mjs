@@ -6,6 +6,12 @@ import { randomUUID } from "node:crypto";
 // Uso:
 // node simulacion/concurrencia.mjs cs 2
 // node simulacion/concurrencia.mjs p2p 3
+//
+// Entorno virtualizado: la variable SERVIDORES indica las direcciones
+// de los servicios, separadas por coma. Ejemplos:
+//   SERVIDORES=http://192.168.56.11:3000
+//   SERVIDORES=http://192.168.56.11:4001,http://192.168.56.12:4002
+// Si no se define, se usa localhost como antes.
 
 const modo = process.argv[2];
 const usuarios = Number(process.argv[3]);
@@ -18,9 +24,23 @@ if (!["cs", "p2p"].includes(modo) ||
   process.exit(1);
 }
 
-const servidores = modo === "cs"
+const servidoresPorDefecto = modo === "cs"
   ? ["http://localhost:3000"]
   : ["http://localhost:4001", "http://localhost:4002"];
+
+const servidores = process.env.SERVIDORES
+  ? process.env.SERVIDORES.split(",")
+    .map(url => url.trim())
+    .filter(url => url !== "")
+  : servidoresPorDefecto;
+
+if (servidores.length === 0 ||
+    (modo === "p2p" && servidores.length < 2)) {
+  console.error(
+    "SERVIDORES debe tener 1 direccion (cs) o al menos 2 (p2p)"
+  );
+  process.exit(1);
+}
 
 const ejecucion = randomUUID().slice(0, 8);
 const resultados = [];
@@ -221,6 +241,7 @@ async function main() {
   console.log(`\nSIMULACION DE CONCURRENCIA T3.3`);
   console.log(`Arquitectura: ${modo}`);
   console.log(`Usuarios virtuales: ${usuarios}`);
+  console.log(`Servidores: ${servidores.join(", ")}`);
   console.log(`Ejecucion: ${ejecucion}`);
 
   const inicio = performance.now();
@@ -292,6 +313,7 @@ async function main() {
     requisito: "RQ11",
     tarea: "T3.3",
     arquitectura: modo,
+    servidores,
     usuarios,
     ejecucion,
     fecha: new Date().toISOString(),
