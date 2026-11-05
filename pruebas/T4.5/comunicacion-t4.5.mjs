@@ -2,7 +2,7 @@
 /* T4.5 / RQ14 - P2P: duplicacion, interrupcion y reconexion entre nodos.
    Requiere Node.js 22+ (WebSocket global) y dos terminales para detener/reiniciar SOLO el nodo 4002.
    No detiene procesos automaticamente ni cambia codigo del servidor. */
-   
+
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomUUID } from 'node:crypto';
