@@ -1,6 +1,7 @@
 import express from "express";
 import taskRoutes from "./routes/task.routes";
 import { iniciarP2P } from "./p2p/sincronizacion";
+import { cors } from "./http/cors";
 
 const app = express();
 
@@ -14,6 +15,7 @@ const PARES = (process.env.PEERS ?? "")
   .map((par) => par.trim())
   .filter((par) => par !== "");
 
+app.use(cors);
 app.use(express.json());
 
 app.get("/", (_req, res) => {
