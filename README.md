@@ -333,3 +333,31 @@ Remove-Item Env:SERVIDORES
 ```
 
 Para medir también CPU, RAM, red y latencia en las VMs, usar `metricas/medir-vm.ps1` del repositorio de microservicios.
+
+## Sprint 4 — Pruebas funcionales y no funcionales (RQ13, RQ14)
+
+| Tarea | Archivo | Qué prueba |
+|---|---|---|
+| T4.2 | `pruebas/t4.2-funcionales.test.mjs` | CRUD en ambos nodos, validaciones y sincronización en los dos sentidos |
+| T4.4 | `simulacion/rendimiento-t4.4.mjs` | Rendimiento con 2, 5, 10 y 20 usuarios virtuales repartidos entre los nodos |
+| T4.5 | `pruebas/T4.5/comunicacion-t4.5.mjs` | Duplicados, interrupción de un nodo y resincronización |
+| T4.6 | `pruebas/T4.6/seguridad-t4.6.mjs`, `pruebas/T4.6/fallos-t4.6.mjs` | Validación de entradas, puertos, TLS y tolerancia a fallos |
+
+Documentación de T4.2: `docs/T4.2-pruebas-funcionales.md`.
+
+```powershell
+npm test                                          # local (localhost:4001 y 4002)
+$env:P2P_NODO1="http://192.168.56.11:4001"         # entorno virtualizado
+$env:P2P_NODO2="http://192.168.56.12:4002"
+npm test
+node pruebas/T4.5/comunicacion-t4.5.mjs            # pide detener/reiniciar el nodo 2 (docker stop/start tele-p2p-2)
+node pruebas/T4.6/seguridad-t4.6.mjs
+node pruebas/T4.6/fallos-t4.6.mjs
+```
+
+Con las variables definidas, las evidencias se guardan con el prefijo `vm-` y el informe de T4.6 en `RESULTADOS-VM.md`.
+
+Cambios del Sprint 4 en el nodo:
+- **CORS** (`src/http/cors.ts`): permite que la interfaz gráfica consuma la API de cada nodo.
+- **Validación:** `POST /tasks` y `PUT /tasks/:id` rechazan con HTTP 400 un título compuesto solo de espacios.
+  La validación de los mensajes entre nodos (`/p2p`) no se modificó.

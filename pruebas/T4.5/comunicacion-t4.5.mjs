@@ -62,8 +62,10 @@ function enviarDuplicado(tarea) {
 function guardar() {
   const carpeta = path.join(path.dirname(fileURLToPath(import.meta.url)), 'resultados');
   fs.mkdirSync(carpeta, { recursive: true });
-  const archivo = path.join(carpeta, `p2p-${ID}.json`);
-  fs.writeFileSync(archivo, JSON.stringify({ requisito: 'RQ14', tarea: 'T4.5', arquitectura: 'p2p', fecha: new Date().toISOString(), ejecucion: ID, resultados }, null, 2));
+  // Sprint 4: las ejecuciones en las VMs se guardan con prefijo vm-
+  const esVM = ['P2P_NODO1', 'P2P_NODO2'].some((v) => process.env[v]);
+  const archivo = path.join(carpeta, `${esVM ? 'vm-' : ''}p2p-${ID}.json`);
+  fs.writeFileSync(archivo, JSON.stringify({ requisito: 'RQ14', tarea: 'T4.5', arquitectura: 'p2p', entorno: esVM ? 'virtualizado' : 'local', fecha: new Date().toISOString(), ejecucion: ID, resultados }, null, 2));
   console.log(`\nEvidencia: ${archivo}`);
 }
 async function main() {
@@ -89,7 +91,7 @@ async function main() {
     exigir(copias === 1, `Se encontraron ${copias} copias de una tarea en el nodo 4002.`);
     anotar('Mensajes duplicados', 'MITIGADO', 'Se envio dos veces el mismo mensaje P2P con igual version; existe una sola tarea por ID.');
 
-    console.log('\nACCION MANUAL 1: Deten SOLO el nodo P2P que atiende el puerto 4002, en SU terminal (Ctrl+C).');
+    console.log('\nACCION MANUAL 1: Deten SOLO el nodo P2P que atiende el puerto 4002, en SU terminal (Ctrl+C; en la VM2: docker stop tele-p2p-2).');
     console.log('NO detengas 4001, 3000, 5001, 5002 ni 6001.');
     await rl.question('Cuando el nodo 4002 este detenido, presiona ENTER aqui... ');
     exigir(await hasta(async () => (await intentar(N2, 'GET', '/')) === null, 12000), 'El puerto 4002 sigue respondiendo. No se confirmo la interrupcion.');
@@ -100,7 +102,7 @@ async function main() {
     creadas.push(offline.datos.id);
     anotar('Operacion durante interrupcion', 'OK', 'El nodo 4001 siguio aceptando tareas mientras 4002 estaba caido.');
 
-    console.log('\nACCION MANUAL 2: Reinicia SOLO el nodo 4002 con el MISMO comando y variables PORT/NODE_ID/PEERS que usabas antes.');
+    console.log('\nACCION MANUAL 2: Reinicia SOLO el nodo 4002 con el MISMO comando y variables PORT/NODE_ID/PEERS que usabas antes (en la VM2: docker start tele-p2p-2).');
     await rl.question('Cuando el nodo 4002 haya iniciado, presiona ENTER aqui... ');
     const convergio = await hasta(async () => {
       const tarea = await intentar(N2, 'GET', `/tasks/${offline.datos.id}`);

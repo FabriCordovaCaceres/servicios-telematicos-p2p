@@ -4,8 +4,8 @@ import path from "node:path";
 import { randomUUID } from "node:crypto";
 
 // Uso:
-// node simulacion/concurrencia.mjs cs 2
-// node simulacion/concurrencia.mjs p2p 3
+// node simulacion/rendimiento-t4.4.mjs cs 2
+// node simulacion/rendimiento-t4.4.mjs p2p 5
 //
 // Entorno virtualizado: la variable SERVIDORES indica las direcciones
 // de los servicios, separadas por coma. Ejemplos:
@@ -19,7 +19,7 @@ const usuarios = Number(process.argv[3]);
 if (!["cs", "p2p"].includes(modo) ||
     ![2, 5, 10, 20].includes(usuarios)) {
   console.error(
-    "Uso: node simulacion/concurrencia.mjs cs|p2p 2|5|10|20"
+    "Uso: node simulacion/rendimiento-t4.4.mjs cs|p2p 2|5|10|20"
   );
   process.exit(1);
 }
@@ -87,7 +87,10 @@ async function solicitar(base, metodo, ruta, datos) {
       codigo: 0,
       datos: null,
       ms: Math.round((performance.now() - inicio) * 100) / 100,
-      error: error.message
+      // Sprint 4: se guarda también la causa interna (p. ej. ECONNRESET)
+      error: error.cause?.code
+        ? `${error.message} (${error.cause.code})`
+        : error.message
     };
   }
 }

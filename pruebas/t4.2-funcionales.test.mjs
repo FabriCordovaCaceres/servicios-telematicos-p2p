@@ -3,8 +3,9 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { setTimeout as esperarTiempo } from "node:timers/promises";
 
-const NODO1 = "http://127.0.0.1:4001";
-const NODO2 = "http://127.0.0.1:4002";
+// Sprint 4: P2P_NODO1 y P2P_NODO2 permiten apuntar a las VMs (por defecto, localhost)
+const NODO1 = (process.env.P2P_NODO1 ?? "http://127.0.0.1:4001").replace(/\/+$/, "");
+const NODO2 = (process.env.P2P_NODO2 ?? "http://127.0.0.1:4002").replace(/\/+$/, "");
 
 async function solicitar(base, ruta, opciones = {}) {
   const respuesta = await fetch(`${base}${ruta}`, opciones);
