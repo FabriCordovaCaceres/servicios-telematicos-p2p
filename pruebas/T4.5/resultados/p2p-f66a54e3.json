@@ -1,0 +1,34 @@
+{
+  "requisito": "RQ14",
+  "tarea": "T4.5",
+  "arquitectura": "p2p",
+  "fecha": "2026-11-04T22:25:32.742Z",
+  "ejecucion": "f66a54e3",
+  "resultados": [
+    {
+      "prueba": "Conexion inicial",
+      "resultado": "OK",
+      "detalle": "Ambos nodos tienen al menos un par conectado."
+    },
+    {
+      "prueba": "Mensajes duplicados",
+      "resultado": "MITIGADO",
+      "detalle": "Se envio dos veces el mismo mensaje P2P con igual version; existe una sola tarea por ID."
+    },
+    {
+      "prueba": "Interrupcion de nodo",
+      "resultado": "OBSERVADO",
+      "detalle": "El nodo 4002 no responde a HTTP; se simula perdida de comunicacion entre pares, no paquetes fisicos."
+    },
+    {
+      "prueba": "Operacion durante interrupcion",
+      "resultado": "OK",
+      "detalle": "El nodo 4001 siguio aceptando tareas mientras 4002 estaba caido."
+    },
+    {
+      "prueba": "Reconexion y sincronizacion",
+      "resultado": "RECUPERADO",
+      "detalle": "Tras reiniciar 4002, el enlace vuelve y la tarea creada offline aparece en ambos nodos."
+    }
+  ]
+}
