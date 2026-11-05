@@ -1,0 +1,78 @@
+{
+  "tarea": "T4.6",
+  "requisito": "RQ14",
+  "arquitectura": "p2p",
+  "fecha": "2026-11-05T02:15:37.888Z",
+  "ejecucion": "570fe5ea",
+  "resumen": {
+    "OK": 9,
+    "HALLAZGO": 0,
+    "ERROR": 0,
+    "OBSERVADO": 0
+  },
+  "pruebas": [
+    {
+      "prueba": "P2P nodo 4001 antes del fallo",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": 200,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 4002 antes del fallo",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": 200,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 4002 detenido",
+      "estado": "OK",
+      "esperado": "sin conexion",
+      "observado": "sin conexion",
+      "detalle": ""
+    },
+    {
+      "prueba": "Nodo 4001 continua operativo",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": 200,
+      "detalle": ""
+    },
+    {
+      "prueba": "Crear tarea con nodo 4002 caido",
+      "estado": "OK",
+      "esperado": "201",
+      "observado": 201,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 4002 reiniciado",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": "200",
+      "detalle": ""
+    },
+    {
+      "prueba": "Sincronizacion tras reconexion",
+      "estado": "OK",
+      "esperado": "tarea presente en 4002",
+      "observado": "tarea recuperada",
+      "detalle": ""
+    },
+    {
+      "prueba": "Limpieza tarea temporal",
+      "estado": "OK",
+      "esperado": "204",
+      "observado": 204,
+      "detalle": ""
+    },
+    {
+      "prueba": "Propagacion de limpieza",
+      "estado": "OK",
+      "esperado": "404 en 4002",
+      "observado": "404",
+      "detalle": ""
+    }
+  ]
+}
