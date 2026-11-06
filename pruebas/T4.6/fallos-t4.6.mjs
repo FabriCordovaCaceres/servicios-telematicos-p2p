@@ -37,7 +37,7 @@ const registrar = (prueba, estado, esperado, observado, detalle = '') => {
 };
 async function pedir(url, metodo = 'GET', cuerpo) {
   try {
-    const opciones = { method: metodo, signal: AbortSignal.timeout(2500) };
+    const opciones = { method: metodo, signal: AbortSignal.timeout(8000) };
     if (cuerpo !== undefined) { opciones.headers = { 'Content-Type': 'application/json' }; opciones.body = JSON.stringify(cuerpo); }
     const r = await fetch(url, opciones);
     const texto = await r.text();

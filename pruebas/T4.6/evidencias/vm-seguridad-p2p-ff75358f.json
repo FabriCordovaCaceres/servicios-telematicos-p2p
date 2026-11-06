@@ -1,0 +1,224 @@
+{
+  "tarea": "T4.6",
+  "requisito": "RQ14",
+  "arquitectura": "p2p",
+  "fecha": "2026-11-06T19:23:30.404Z",
+  "ejecucion": "ff75358f",
+  "entorno": "virtualizado (direcciones por variables de entorno)",
+  "endpoints": [
+    {
+      "nombre": "P2P nodo 1",
+      "base": "http://192.168.56.11:4001",
+      "ruta": "/tasks"
+    },
+    {
+      "nombre": "P2P nodo 2",
+      "base": "http://192.168.56.12:4002",
+      "ruta": "/tasks"
+    }
+  ],
+  "resumen": {
+    "OK": 24,
+    "HALLAZGO": 0,
+    "ERROR": 0,
+    "OBSERVADO": 4
+  },
+  "pruebas": [
+    {
+      "prueba": "P2P nodo 1: servicio disponible",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": 200,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: cabeceras HTTP",
+      "estado": "OBSERVADO",
+      "esperado": "revision",
+      "observado": "{\"x-powered-by\":\"Express\",\"x-content-type-options\":null,\"strict-transport-security\":null}",
+      "detalle": "Ausencia de cabecera no prueba por si sola una vulnerabilidad"
+    },
+    {
+      "prueba": "P2P nodo 1: ID inexistente",
+      "estado": "OK",
+      "esperado": "404",
+      "observado": 404,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: POST sin titulo",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: POST titulo numerico",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: POST titulo vacio",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: JSON malformado",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: crear tarea temporal",
+      "estado": "OK",
+      "esperado": "201",
+      "observado": 201,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: PUT titulo solo espacios",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: PUT estado invalido",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: eliminar tarea temporal",
+      "estado": "OK",
+      "esperado": "204",
+      "observado": 204,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 1: titulo solo espacios",
+      "estado": "OK",
+      "esperado": "rechazo",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: servicio disponible",
+      "estado": "OK",
+      "esperado": "200",
+      "observado": 200,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: cabeceras HTTP",
+      "estado": "OBSERVADO",
+      "esperado": "revision",
+      "observado": "{\"x-powered-by\":\"Express\",\"x-content-type-options\":null,\"strict-transport-security\":null}",
+      "detalle": "Ausencia de cabecera no prueba por si sola una vulnerabilidad"
+    },
+    {
+      "prueba": "P2P nodo 2: ID inexistente",
+      "estado": "OK",
+      "esperado": "404",
+      "observado": 404,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: POST sin titulo",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: POST titulo numerico",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: POST titulo vacio",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: JSON malformado",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: crear tarea temporal",
+      "estado": "OK",
+      "esperado": "201",
+      "observado": 201,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: PUT titulo solo espacios",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: PUT estado invalido",
+      "estado": "OK",
+      "esperado": "400",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: eliminar tarea temporal",
+      "estado": "OK",
+      "esperado": "204",
+      "observado": 204,
+      "detalle": ""
+    },
+    {
+      "prueba": "P2P nodo 2: titulo solo espacios",
+      "estado": "OK",
+      "esperado": "rechazo",
+      "observado": 400,
+      "detalle": ""
+    },
+    {
+      "prueba": "Puerto 4001 en 192.168.56.11",
+      "estado": "OK",
+      "esperado": "ABIERTO",
+      "observado": "ABIERTO",
+      "detalle": "Alcance: accesible desde el equipo de pruebas hacia 192.168.56.11"
+    },
+    {
+      "prueba": "TLS verificado 4001",
+      "estado": "OBSERVADO",
+      "esperado": "TLS_VERIFICADO",
+      "observado": "ERR_SSL_WRONG_VERSION_NUMBER",
+      "detalle": "Una prueba local negativa no descarta TLS en un proxy inverso externo"
+    },
+    {
+      "prueba": "Puerto 4002 en 192.168.56.12",
+      "estado": "OK",
+      "esperado": "ABIERTO",
+      "observado": "ABIERTO",
+      "detalle": "Alcance: accesible desde el equipo de pruebas hacia 192.168.56.12"
+    },
+    {
+      "prueba": "TLS verificado 4002",
+      "estado": "OBSERVADO",
+      "esperado": "TLS_VERIFICADO",
+      "observado": "ERR_SSL_WRONG_VERSION_NUMBER",
+      "detalle": "Una prueba local negativa no descarta TLS en un proxy inverso externo"
+    }
+  ]
+}
